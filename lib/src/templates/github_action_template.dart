@@ -16,16 +16,10 @@ env:
 jobs:
   patch:
     name: Push patch to branch track
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - name: Git Checkout
         uses: actions/checkout@v4
-
-      - name: Setup Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: '17'
 
       - name: Setup Shorebird
         uses: shorebirdtech/setup-shorebird@v1
@@ -41,14 +35,6 @@ jobs:
         run: |
           VERSION=$(grep '^version:' pubspec.yaml | awk '{print $2}')
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
-
-      - name: Shorebird Patch (Android)
-        run: |
-          shorebird patch android \
-            --track ${{ steps.branch.outputs.name }} \
-            --release-version ${{ steps.version.outputs.version }} \
-            --allow-native-diffs \
-            --allow-asset-diffs
 
       - name: Shorebird Patch (iOS)
         run: |
