@@ -5,12 +5,16 @@ on:
     branches:
       - '**'
     paths:
-      - 'lib/**'
-      - 'pubspec.yaml'
-      - 'pubspec.lock'
+      - 'example/lib/**'
+      - 'example/pubspec.yaml'
+      - 'example/pubspec.lock'
 
 env:
   SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
+
+defaults:
+  run:
+    working-directory: example
 
 jobs:
   patch:
