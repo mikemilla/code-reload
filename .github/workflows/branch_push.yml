@@ -35,9 +35,6 @@ jobs:
         with:
           cache: true
 
-      - name: Install dependencies
-        run: flutter pub get
-
       - name: Extract branch name
         id: branch
         run: echo "name=${GITHUB_REF_NAME}" >> "$GITHUB_OUTPUT"
