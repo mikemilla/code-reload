@@ -50,7 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.red,
+        backgroundColor: Colors.red, // branch_push demo
         title: const Text('Branch Push Example'),
       ),
       body: Center(
