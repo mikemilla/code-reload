@@ -52,4 +52,12 @@ jobs:
             --release-version ${{ steps.version.outputs.version }} \
             --allow-native-diffs \
             --allow-asset-diffs
+
+      - name: Shorebird Patch (iOS)
+        run: |
+          shorebird patch ios \
+            --track ${{ steps.branch.outputs.name }} \
+            --release-version ${{ steps.version.outputs.version }} \
+            --allow-native-diffs \
+            --allow-asset-diffs
 ''';
