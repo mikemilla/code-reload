@@ -1,0 +1,20 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "bunbu: debug",
+      "type": "dart",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/example",
+      "program": "lib/main.dart"
+    },
+    {
+      "name": "bunbu: release",
+      "type": "dart",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/example",
+      "program": "lib/main.dart",
+      "flutterMode": "release"
+    }
+  ]
+}

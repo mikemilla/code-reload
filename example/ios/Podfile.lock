@@ -1,0 +1,22 @@
+PODS:
+  - bunbu (0.1.0):
+    - Flutter
+  - Flutter (1.0.0)
+
+DEPENDENCIES:
+  - bunbu (from `.symlinks/plugins/bunbu/ios`)
+  - Flutter (from `Flutter`)
+
+EXTERNAL SOURCES:
+  bunbu:
+    :path: ".symlinks/plugins/bunbu/ios"
+  Flutter:
+    :path: Flutter
+
+SPEC CHECKSUMS:
+  bunbu: bd33fdb649910511f9222c0b7b6a99031ad55779
+  Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
+
+PODFILE CHECKSUM: bd29822c3d5baf6b44b726f00ea3293a19339ef2
+
+COCOAPODS: 1.16.2

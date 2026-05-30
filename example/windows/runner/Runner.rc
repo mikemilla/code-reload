@@ -89,13 +89,13 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "com.buildcontext" "\0"
-            VALUE "FileDescription", "branch_push_example" "\0"
+            VALUE "CompanyName", "com.example" "\0"
+            VALUE "FileDescription", "bunbu_example" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "branch_push_example" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2026 com.buildcontext. All rights reserved." "\0"
-            VALUE "OriginalFilename", "branch_push_example.exe" "\0"
-            VALUE "ProductName", "branch_push_example" "\0"
+            VALUE "InternalName", "bunbu_example" "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2026 com.example. All rights reserved." "\0"
+            VALUE "OriginalFilename", "bunbu_example.exe" "\0"
+            VALUE "ProductName", "bunbu_example" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

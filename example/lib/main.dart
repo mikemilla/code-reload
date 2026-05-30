@@ -1,17 +1,11 @@
 import 'package:flutter/material.dart';
-
-import 'src/branch_push_updater.dart';
+import 'package:bunbu/bunbu.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-
-  final updater = BranchPushUpdater(
-    onUpdateReady: () {
-      debugPrint('Update ready! App will apply on next restart.');
-    },
+  BunbuAgentManager.initialize(
+    apiKey: const String.fromEnvironment('AI_API_KEY', defaultValue: 'your-key-here'),
   );
-  updater.startWatching();
-
   runApp(const MyApp());
 }
 
@@ -21,59 +15,52 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Branch Push Example',
+      title: 'Bunbu Example',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFF6C63FF),
+          brightness: Brightness.dark,
+        ),
+        useMaterial3: true,
       ),
-      home: const MyHomePage(),
+      home: const HomePage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.pink,
-        title: const Text('Branch Push Example'),
+        title: const Text('Bunbu Example'),
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              Icons.auto_awesome,
+              size: 64,
+              color: Theme.of(context).colorScheme.primary,
             ),
-            const SizedBox(height: 32),
+            const SizedBox(height: 16),
             Text(
-              'Watching track: ${BranchPushUpdater.trackName}',
-              style: Theme.of(context).textTheme.bodySmall,
+              'The native FAB should appear',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Tap it to open the agent',
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: Colors.white54,
+                  ),
             ),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
       ),
     );
   }
