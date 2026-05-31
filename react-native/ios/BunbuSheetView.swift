@@ -15,6 +15,7 @@ struct BunbuSheetView: View {
         VStack(spacing: 0) {
             header
             tabContent
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
         .background(BunbuColors.background)
         .bunbuDarkTheme()

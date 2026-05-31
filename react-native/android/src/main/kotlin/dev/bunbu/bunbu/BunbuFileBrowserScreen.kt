@@ -2,18 +2,20 @@ package dev.bunbu.bunbu
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -151,12 +153,18 @@ private fun BunbuCodeEditorScreen(
 
         Divider(color = Color(0xFF2A2A3E))
 
-        // Editor area
+        // Editor area — BasicTextField scrolls on its own; avoid nesting scroll containers.
+        val editorScroll = rememberScrollState()
+        val editorStyle = TextStyle(
+            fontSize = 13.sp,
+            fontFamily = FontFamily.Monospace,
+            lineHeight = 20.sp,
+            color = Color(0xFFE0E0E0)
+        )
         Row(
             modifier = Modifier
                 .weight(1f)
-                .horizontalScroll(rememberScrollState())
-                .verticalScroll(rememberScrollState())
+                .fillMaxWidth()
                 .padding(vertical = 8.dp)
         ) {
             val lines = editedContent.split("\n")
@@ -175,26 +183,18 @@ private fun BunbuCodeEditorScreen(
                 }
             }
 
-            TextField(
+            BasicTextField(
                 value = editedContent,
                 onValueChange = {
                     editedContent = it
                     hasLocalChanges = (it != content)
                 },
-                modifier = Modifier.widthIn(min = 600.dp),
-                colors = TextFieldDefaults.colors(
-                    focusedContainerColor = Color.Transparent,
-                    unfocusedContainerColor = Color.Transparent,
-                    focusedTextColor = Color(0xFFE0E0E0),
-                    unfocusedTextColor = Color(0xFFE0E0E0),
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent
-                ),
-                textStyle = LocalTextStyle.current.copy(
-                    fontSize = 13.sp,
-                    fontFamily = FontFamily.Monospace,
-                    lineHeight = 20.sp
-                )
+                textStyle = editorStyle,
+                cursorBrush = SolidColor(Color(0xFF6C63FF)),
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxHeight()
+                    .verticalScroll(editorScroll)
             )
         }
 

@@ -57,11 +57,14 @@ struct BunbuFileBrowserView: View {
     @State private var renamePath = ""
 
     var body: some View {
-        if viewModel.openFilePath != nil {
-            BunbuCodeEditorView(viewModel: viewModel)
-        } else {
-            fileList
+        Group {
+            if viewModel.openFilePath != nil {
+                BunbuCodeEditorView(viewModel: viewModel)
+            } else {
+                fileList
+            }
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 
     private var fileList: some View {
@@ -81,7 +84,9 @@ struct BunbuFileBrowserView: View {
                 }
                 .padding(12)
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(BunbuColors.background)
         .alert("New File", isPresented: $showNewFile) {
             TextField("path/to/File.tsx", text: $newFilePath)
@@ -212,8 +217,10 @@ struct BunbuCodeEditorView: View {
         VStack(spacing: 0) {
             toolbar
             editor
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
             bottomBar
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(BunbuColors.background)
         .onAppear {
             editedContent = viewModel.openFileContent
@@ -257,22 +264,20 @@ struct BunbuCodeEditorView: View {
     }
 
     private var editor: some View {
-        ScrollView([.horizontal, .vertical]) {
-            HStack(alignment: .top, spacing: 0) {
-                lineNumbers
-                TextEditor(text: $editedContent)
-                    .font(.system(.subheadline, design: .monospaced))
-                    .foregroundStyle(BunbuColors.textPrimary)
-                    .scrollContentBackground(.hidden)
-                    .autocorrectionDisabled()
-                    .textInputAutocapitalization(.never)
-                    .frame(minWidth: 600, minHeight: 400)
-                    .onChange(of: editedContent) { _ in
-                        hasLocalChanges = (editedContent != viewModel.openFileContent)
-                    }
-            }
-            .padding(.vertical, 8)
+        HStack(alignment: .top, spacing: 0) {
+            lineNumbers
+            TextEditor(text: $editedContent)
+                .font(.system(.subheadline, design: .monospaced))
+                .foregroundStyle(BunbuColors.textPrimary)
+                .scrollContentBackground(.hidden)
+                .autocorrectionDisabled()
+                .textInputAutocapitalization(.never)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .onChange(of: editedContent) { _ in
+                    hasLocalChanges = (editedContent != viewModel.openFileContent)
+                }
         }
+        .padding(.vertical, 8)
     }
 
     private var lineNumbers: some View {
