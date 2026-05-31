@@ -9,9 +9,10 @@ class BunbuFABWindow: UIWindow {
     private var onTap: (() -> Void)?
     private var panOrigin: CGPoint = .zero
 
-    init(onTap: @escaping () -> Void) {
+    init(windowScene: UIWindowScene, onTap: @escaping () -> Void) {
         self.onTap = onTap
-        super.init(frame: CGRect(x: 0, y: 0, width: 56, height: 56))
+        super.init(windowScene: windowScene)
+        frame = CGRect(x: 0, y: 0, width: Self.fabSize, height: Self.fabSize)
         setup()
     }
 

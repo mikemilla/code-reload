@@ -4,6 +4,7 @@
 @interface RCT_EXTERN_MODULE(BunbuModule, RCTEventEmitter)
 
 RCT_EXTERN_METHOD(initialize)
+RCT_EXTERN_METHOD(requestSync)
 RCT_EXTERN_METHOD(showSheet)
 RCT_EXTERN_METHOD(hideSheet)
 RCT_EXTERN_METHOD(bootstrap:(NSDictionary *)files hash:(NSString *)hash)

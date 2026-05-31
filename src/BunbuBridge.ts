@@ -5,6 +5,7 @@ import type {AiModel} from './ai/models';
 const {BunbuModule} = NativeModules as {
   BunbuModule?: {
     initialize(): void;
+    requestSync(): void;
     bootstrap(files: Record<string, string>, hash: string): void;
     configureAgent(config: {
       apiKey: string;
@@ -34,9 +35,13 @@ export function initBridge() {
   emitter = new NativeEventEmitter(BunbuModule as any);
   emitter.addListener('BunbuEvent', (event: BunbuEvent) => {
     switch (event.type) {
-      case 'setFiles':
-        projectStore.setFiles(event.payload?.files ?? {});
+      case 'setFiles': {
+        const files = event.payload?.files ?? {};
+        if (Object.keys(files).length > 0) {
+          projectStore.setFilesFromNative(files);
+        }
         break;
+      }
       case 'reload':
         projectStore.reload();
         break;
@@ -44,7 +49,12 @@ export function initBridge() {
   });
 
   installGlobalErrorHandler();
-  BunbuModule.initialize();
+  try {
+    BunbuModule.initialize();
+    BunbuModule.requestSync?.();
+  } catch (e) {
+    console.warn('bunbu: native init failed', e);
+  }
 }
 
 /// Forward uncaught JS errors to native so the editor/agent can react, and so

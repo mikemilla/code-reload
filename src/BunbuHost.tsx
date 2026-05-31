@@ -1,5 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useLayoutEffect, useSyncExternalStore} from 'react';
 import {Appearance, StatusBar, StyleSheet, View} from 'react-native';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {projectStore} from './store/ProjectStore';
 import LiveRuntime from './runtime/LiveRuntime';
 import {
@@ -36,15 +37,18 @@ export default function BunbuHost({
   githubClientId,
   fallback: Fallback,
 }: BunbuHostProps) {
-  const [ready, setReady] = useState(false);
+  // Without native, seed the bundled snapshot for the interpreter immediately.
+  useLayoutEffect(() => {
+    if (!isNativeAvailable && Object.keys(sources).length > 0) {
+      projectStore.setFiles(sources);
+    }
+  }, [sources]);
 
   useEffect(() => {
     Appearance.setColorScheme('dark');
 
     if (!isNativeAvailable) {
-      // No native module (e.g. running without the pod) — just show the files.
       projectStore.setFiles(sources);
-      setReady(true);
       return;
     }
 
@@ -53,26 +57,35 @@ export default function BunbuHost({
       configureAgent({apiKey, model});
     }
     configureGitHub(resolveGitHubClientId(githubClientId));
-
-    const unsubscribe = projectStore.subscribe(() => {
-      if (projectStore.list().length > 0) {
-        setReady(true);
-      }
-    });
-
     bootstrap(sources);
-    return unsubscribe;
   }, [sources, apiKey, model, githubClientId]);
 
-  if (!ready) {
-    return Fallback && Object.keys(sources).length === 0 ? <Fallback /> : null;
-  }
+  const fileCount = useSyncExternalStore(
+    projectStore.subscribe.bind(projectStore),
+    () => projectStore.list().length,
+  );
+  const nativeGeneration = useSyncExternalStore(
+    projectStore.subscribe.bind(projectStore),
+    projectStore.getNativeGeneration,
+  );
+
+  // With native: show the compiled app until the on-device store syncs, then
+  // switch to the interpreted live preview (updates on every save).
+  const showLivePreview = isNativeAvailable
+    ? nativeGeneration > 0 && fileCount > 0
+    : fileCount > 0;
 
   return (
-    <View style={styles.root}>
-      <StatusBar barStyle="light-content" backgroundColor="#1a1a2e" />
-      <LiveRuntime entryFile={entry} onError={reportRuntimeError} />
-    </View>
+    <SafeAreaProvider style={styles.root}>
+      <View style={styles.root}>
+        <StatusBar barStyle="light-content" backgroundColor="#1a1a2e" />
+        {showLivePreview ? (
+          <LiveRuntime entryFile={entry} onError={reportRuntimeError} />
+        ) : Fallback ? (
+          <Fallback />
+        ) : null}
+      </View>
+    </SafeAreaProvider>
   );
 }
 

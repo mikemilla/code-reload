@@ -74,9 +74,14 @@ export default function LiveRuntime({
     );
   }
 
+  const Preview = result.Component;
+
   return (
-    <ErrorBoundary onRetry={handleRetry} onError={onError}>
-      <result.Component />
+    <ErrorBoundary
+      key={version}
+      onRetry={handleRetry}
+      onError={onError}>
+      <Preview key={version} />
     </ErrorBoundary>
   );
 }

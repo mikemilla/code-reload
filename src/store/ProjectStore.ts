@@ -6,15 +6,25 @@ type Listener = () => void;
 export class ProjectStore {
   private files: Record<string, string> = {};
   private _version = 0;
+  private _nativeGeneration = 0;
   private listeners: Set<Listener> = new Set();
 
   get version() {
     return this._version;
   }
 
-  /// Replace the in-memory file set with the authoritative set from native.
+  getNativeGeneration = () => this._nativeGeneration;
+
+  /// Replace the in-memory file set (bundled seed, no native authority yet).
   setFiles(files: Record<string, string>) {
     this.files = {...files};
+    this.bump();
+  }
+
+  /// Authoritative update from the on-device native store (save, bootstrap, agent).
+  setFilesFromNative(files: Record<string, string>) {
+    this.files = {...files};
+    this._nativeGeneration++;
     this.bump();
   }
 

@@ -3,6 +3,10 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
+    "snapshot": "node ../scripts/bunbu-snapshot.js --src src --out appSources.ts",
+    "prestart": "npm run snapshot",
+    "preios": "npm run snapshot",
+    "preandroid": "npm run snapshot",
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "lint": "eslint .",

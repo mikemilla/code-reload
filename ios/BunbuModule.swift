@@ -12,6 +12,7 @@ class BunbuModule: RCTEventEmitter, BunbuHost, UIAdaptivePresentationControllerD
     private let viewModel = BunbuViewModel.shared
     private let store = BunbuFileStore.shared
     private var hasListeners = false
+    private var pendingFiles: [String: String]?
 
     override init() {
         super.init()
@@ -28,7 +29,16 @@ class BunbuModule: RCTEventEmitter, BunbuHost, UIAdaptivePresentationControllerD
         return ["BunbuEvent"]
     }
 
-    override func startObserving() { hasListeners = true }
+    override func startObserving() {
+        hasListeners = true
+        if let pending = pendingFiles {
+            pendingFiles = nil
+            deliverFiles(pending)
+        } else {
+            reloadPreview()
+        }
+    }
+
     override func stopObserving() { hasListeners = false }
 
     // MARK: - Lifecycle from JS
@@ -107,10 +117,19 @@ class BunbuModule: RCTEventEmitter, BunbuHost, UIAdaptivePresentationControllerD
         }
     }
 
+    /// Ask native to push the current on-device file set to JS (after the bridge
+    /// listener is registered).
+    @objc func requestSync() {
+        DispatchQueue.main.async {
+            self.reloadPreview()
+        }
+    }
+
     @objc func initialize() {
         DispatchQueue.main.async {
             guard self.fabWindow == nil else { return }
-            self.fabWindow = BunbuFABWindow { [weak self] in
+            guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return }
+            self.fabWindow = BunbuFABWindow(windowScene: scene) { [weak self] in
                 self?.showSheet()
             }
         }
@@ -167,8 +186,20 @@ class BunbuModule: RCTEventEmitter, BunbuHost, UIAdaptivePresentationControllerD
     /// Push the current native file set to JS and re-evaluate the preview.
     func reloadPreview() {
         let files = store.snapshot()
+        pushFilesToJS(files)
+    }
+
+    private func pushFilesToJS(_ files: [String: String]) {
+        guard !files.isEmpty else { return }
+        if hasListeners {
+            deliverFiles(files)
+        } else {
+            pendingFiles = files
+        }
+    }
+
+    private func deliverFiles(_ files: [String: String]) {
         emit("setFiles", payload: ["files": files])
-        emit("reload")
     }
 
     func sendAgentMessage(_ text: String) {
