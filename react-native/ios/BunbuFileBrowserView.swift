@@ -239,9 +239,11 @@ struct BunbuCodeEditorView: View {
                 viewModel.closeFile()
                 hasLocalChanges = false
             }) {
-                Text("‹ Back")
+                Label("Back", systemImage: "chevron.left")
                     .font(.body.weight(.semibold))
             }
+            .buttonStyle(.plain)
+            .foregroundStyle(BunbuColors.accent)
 
             Text(viewModel.openFilePath ?? "")
                 .font(.system(.caption, design: .monospaced))
@@ -258,24 +260,30 @@ struct BunbuCodeEditorView: View {
         }
         .padding(.horizontal, 12)
         .padding(.vertical, 8)
+        .background(BunbuColors.background)
         .overlay(alignment: .bottom) {
             Divider()
         }
     }
 
     private var editor: some View {
-        HStack(alignment: .top, spacing: 0) {
-            lineNumbers
-            TextEditor(text: $editedContent)
-                .font(.system(.subheadline, design: .monospaced))
-                .foregroundStyle(BunbuColors.textPrimary)
-                .scrollContentBackground(.hidden)
-                .autocorrectionDisabled()
-                .textInputAutocapitalization(.never)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .onChange(of: editedContent) { _ in
-                    hasLocalChanges = (editedContent != viewModel.openFileContent)
-                }
+        GeometryReader { geometry in
+            HStack(alignment: .top, spacing: 0) {
+                lineNumbers
+                    .frame(width: 40, height: geometry.size.height, alignment: .top)
+                    .clipped()
+
+                TextEditor(text: $editedContent)
+                    .font(.system(.subheadline, design: .monospaced))
+                    .foregroundStyle(BunbuColors.textPrimary)
+                    .scrollContentBackground(.hidden)
+                    .autocorrectionDisabled()
+                    .textInputAutocapitalization(.never)
+                    .frame(width: max(geometry.size.width - 40, 0), height: geometry.size.height)
+                    .onChange(of: editedContent) { _ in
+                        hasLocalChanges = (editedContent != viewModel.openFileContent)
+                    }
+            }
         }
         .padding(.vertical, 8)
     }
@@ -291,7 +299,7 @@ struct BunbuCodeEditorView: View {
             }
         }
         .padding(.horizontal, 8)
-        .frame(minWidth: 40, alignment: .trailing)
+        .frame(width: 40, alignment: .trailing)
     }
 
     private var bottomBar: some View {
