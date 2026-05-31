@@ -1,12 +1,30 @@
-.dart_tool/
-.packages
-build/
-pubspec.lock
-*.iml
-.idea/
+# OS
 .DS_Store
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# Flutter (under flutter/)
+flutter/android/.gradle/
+flutter/.dart_tool/
+flutter/.packages
+flutter/build/
+flutter/pubspec.lock
+flutter/.flutter-plugins
+flutter/.flutter-plugins-dependencies
+flutter/example/.dart_tool/
+flutter/example/build/
+flutter/example/pubspec.lock
+
+# React Native (under react-native/)
+react-native/android/.gradle/
+react-native/node_modules/
+react-native/example/node_modules/
+react-native/example/ios/Pods/
+react-native/example/ios/build/
+react-native/example/android/build/
+react-native/example/android/app/build/
+react-native/lib/
 *.env
-.env
-.gradle/
-.flutter-plugins
-.flutter-plugins-dependencies

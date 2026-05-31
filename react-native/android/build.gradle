@@ -1,0 +1,50 @@
+buildscript {
+    ext.safeExtGet = { prop, fallback ->
+        rootProject.ext.has(prop) ? rootProject.ext.get(prop) : fallback
+    }
+}
+
+apply plugin: "com.android.library"
+apply plugin: "org.jetbrains.kotlin.android"
+apply plugin: "org.jetbrains.kotlin.plugin.compose"
+
+android {
+    namespace = "dev.bunbu.bunbu"
+    compileSdk safeExtGet("compileSdkVersion", 36)
+
+    defaultConfig {
+        minSdk safeExtGet("minSdkVersion", 24)
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = "17"
+    }
+
+    buildFeatures {
+        compose = true
+    }
+
+    sourceSets {
+        main {
+            java.srcDirs = ["src/main/kotlin"]
+        }
+    }
+}
+
+dependencies {
+    implementation "com.facebook.react:react-android:+"
+    implementation "com.google.android.material:material:1.12.0"
+    implementation platform("androidx.compose:compose-bom:2024.12.01")
+    implementation "androidx.compose.ui:ui"
+    implementation "androidx.compose.material3:material3"
+    implementation "androidx.compose.foundation:foundation"
+    implementation "androidx.activity:activity-compose:1.9.3"
+    implementation "androidx.lifecycle:lifecycle-runtime-compose:2.8.7"
+    implementation "io.github.rosemoe.sora-editor:editor:0.23.4"
+    implementation "io.github.rosemoe.sora-editor:language-textmate:0.23.4"
+}

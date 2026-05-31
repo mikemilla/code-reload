@@ -1,0 +1,28 @@
+name: bunbu
+description: On-device AI coding assistant for Flutter with native UI. Shows a native FAB and chat sheet on iOS and Android.
+version: 0.1.0
+homepage: https://github.com/build-context/bunbu
+
+environment:
+  sdk: ^3.8.0
+  flutter: ">=3.19.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  http: ^1.2.0
+  flutter_eval: ^0.8.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  plugin:
+    platforms:
+      ios:
+        pluginClass: BunbuPlugin
+      android:
+        package: dev.bunbu.bunbu
+        pluginClass: BunbuPlugin
