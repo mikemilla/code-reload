@@ -2,19 +2,18 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "bunbu: debug",
-      "type": "dart",
+      "name": "BunbuExample: iOS",
+      "type": "reactnative",
       "request": "launch",
       "cwd": "${workspaceFolder}/example",
-      "program": "lib/main.dart"
+      "platform": "ios"
     },
     {
-      "name": "bunbu: release",
-      "type": "dart",
+      "name": "BunbuExample: Android",
+      "type": "reactnative",
       "request": "launch",
       "cwd": "${workspaceFolder}/example",
-      "program": "lib/main.dart",
-      "flutterMode": "release"
+      "platform": "android"
     }
   ]
 }
