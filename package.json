@@ -22,10 +22,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/build-context/code-reload.git"
+    "url": "git+https://github.com/mikemilla/code-reload.git"
   },
-  "bugs": "https://github.com/build-context/code-reload/issues",
-  "homepage": "https://github.com/build-context/code-reload#readme",
+  "bugs": "https://github.com/mikemilla/code-reload/issues",
+  "homepage": "https://github.com/mikemilla/code-reload#readme",
   "keywords": [
     "react-native",
     "live-reload",
