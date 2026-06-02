@@ -111,7 +111,7 @@ Published as [`code-reload`](https://www.npmjs.com/package/code-reload) on npm. 
 
 1. Bump `version` in [package.json](package.json) in your release PR.
 2. Merge to `main` (or run **Publish to npm** via Actions → workflow_dispatch).
-3. Ensure the repo has an **`NPM_TOKEN`** secret: a granular npm publish token from the [mikemilla](https://www.npmjs.com/~mikemilla) account with publish permission (and “Bypass 2FA for publish” if you use 2FA).
+3. On npm, configure **trusted publishing** for `code-reload` → GitHub → `mikemilla/code-reload`, workflow file `npm-publish.yml`. CI uses OIDC (`--provenance`); do not set an empty `NPM_TOKEN` secret (it breaks OIDC auth).
 
 Merges without a version bump are no-ops: the workflow skips publish when the version already exists on npm.
 
