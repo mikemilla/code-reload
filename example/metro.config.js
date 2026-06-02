@@ -10,7 +10,7 @@ const {getDefaultConfig, mergeConfig} = require('@react-native/metro-config');
 const root = path.resolve(__dirname, '..');
 
 const config = {
-  // Required so Metro can resolve the local `bunbu` package (file:../).
+  // Required so Metro can resolve the local `code-reload` package (file:../).
   watchFolders: [root],
   resolver: {
     nodeModulesPaths: [

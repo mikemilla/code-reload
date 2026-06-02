@@ -10,7 +10,7 @@ export interface AiModel {
 }
 
 /// Model catalog. The actual streaming runs natively (Swift) now; this is just
-/// a convenience map so apps can pass a model to `registerBunbuApp`.
+/// a convenience map so apps can pass a model to `registerCodeReloadApp`.
 export const AI_MODELS: Record<string, AiModel> = {
   claude4Sonnet: {
     id: 'claude-sonnet-4-20250514',

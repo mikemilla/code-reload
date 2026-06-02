@@ -1,9 +1,9 @@
 {
-  "name": "BunbuExample",
+  "name": "CodeReloadExample",
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "snapshot": "node ../scripts/bunbu-snapshot.js --src src --out appSources.ts",
+    "snapshot": "node ../scripts/code-reload-snapshot.js --src src --out appSources.ts",
     "prestart": "npm run snapshot",
     "preios": "npm run snapshot",
     "preandroid": "npm run snapshot",
@@ -17,7 +17,7 @@
   "dependencies": {
     "@react-native-async-storage/async-storage": "^2.1.0",
     "@react-native/new-app-screen": "0.85.3",
-    "bunbu": "file:../",
+    "code-reload": "file:../",
     "react": "19.2.3",
     "react-native": "0.85.3",
     "react-native-safe-area-context": "^5.5.2",

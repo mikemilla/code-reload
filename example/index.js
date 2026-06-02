@@ -2,13 +2,13 @@
  * @format
  */
 
-import {registerBunbuApp, AI_MODELS} from 'bunbu';
+import {registerCodeReloadApp, AI_MODELS} from 'code-reload';
 import * as SafeAreaContext from 'react-native-safe-area-context';
 import App from './src/App';
 import {name as appName} from './app.json';
 import {appSources} from './appSources';
 
-registerBunbuApp(appName, App, {
+registerCodeReloadApp(appName, App, {
   sources: appSources,
   entry: 'App',
   apiKey: 'your-key-here',

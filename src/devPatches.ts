@@ -7,13 +7,13 @@ function patchOpenURLInBrowser() {
   try {
     const mod = require('react-native/Libraries/Core/Devtools/openURLInBrowser');
     const current = mod?.default;
-    if (!current || current.__bunbuPatched) {
+    if (!current || current.__codeReloadPatched) {
       return;
     }
-    mod.default = function bunbuOpenURLInBrowser(url: string) {
+    mod.default = function codeReloadOpenURLInBrowser(url: string) {
       Linking.openURL(url).catch(() => {});
     };
-    mod.default.__bunbuPatched = true;
+    mod.default.__codeReloadPatched = true;
   } catch {
     // DevTools module unavailable — ignore.
   }

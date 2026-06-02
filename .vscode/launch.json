@@ -2,14 +2,14 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "BunbuExample: iOS",
+      "name": "CodeReloadExample: iOS",
       "type": "reactnative",
       "request": "launch",
       "cwd": "${workspaceFolder}/example",
       "platform": "ios"
     },
     {
-      "name": "BunbuExample: Android",
+      "name": "CodeReloadExample: Android",
       "type": "reactnative",
       "request": "launch",
       "cwd": "${workspaceFolder}/example",
